@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Shopping Cart
+{% endblock %}
+
+{% block extra_style %}
+    width:80%;
+{% endblock %}
+
+{% block body_block %}
+    <h3>Shopping Cart</h3>
+    <table style="width:100%;" class="cart">
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Remove</th>
+            <th>Unit price</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+
+        <tbody id="cart-details">
+        {% include 'ArtVillage/shopping_cart_table.html' %}
+        </tbody>
+    </table>
+    <p class="text-right">
+        <a href="{% url "index" %}" class="button light">Continue shopping</a>
+        {% if cart|length >= 1 %}
+
+            <div class="container" style="padding:0px;">
+                <h3>Select Delivery option</h3>
+                </br>
+                <form id="delivery-form" class="shipping-form">
+                    <fieldset class="shipping-fieldset">
+                        <input class="shipping" type="radio" id="delivery-home" name="delivery" value="home" required>
+                        <label class="shipping-label" for="delivery-home">Home Delivery</label>
+                    </fieldset>
+                    <fieldset class="shipping-fieldset">
+                        <input class="shipping" type="radio" id="delivery-store" name="delivery" value="store" required
+                               checked>
+                        <label class="shipping-label" for="delivery-store">Collect From Store</label>
+                    </fieldset>
+                </form>
+            </div>
+
+            </br>
+            </br>
+
+            <div class="store-delivery" id="store-delivery" style="display: none;">
+                Your order will be delivered to: Art Village Scotland,
+                Shawlands Shopping Centre, 104 Kilmarnock Road, Glasgow G41 3NN
+            </div>
+            <div class="home-delivery" id="home-delivery" style="display: none;">
+                Delivery Details: <br>
+                <em class="align-left">First Name: {{ userprofile.first_name }}</em><br>
+                <em class="align-left">Surname: {{ userprofile.surname }}</em><br>
+                <em class="align-left">Country: {{ userprofile.country }}</em><br>
+                <em class="align-left">City: {{ userprofile.city }}</em><br>
+                <em class="align-left">Address line 1: {{ userprofile.address1 }}</em><br>
+                <em class="align-left">Address line 2: {{ userprofile.address2 }}</em><br>
+                <em class="align-left">Postcode: {{ userprofile.postcode }}</em><br>
+                <a href="{% url 'edit_shipping_details' %}" class="btn btn-default pull-right">Edit Shipping Details</a>
+            </div>
+            </br>
+            </br>
+        {% endif %}
+
+    <div id="outer" style="width:100%">
+        <div id="inner" style="width: 30%; margin: 0 auto; text-align: right;">
+            <div class="row" id="paypal-button">
+
+
+                <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_xclick">
+                    <input type="hidden" name="business" value="katq1995-2@gmail.com">
+                    <input type="hidden" name="lc" value="GB">
+                    <input type="hidden" name="item_name" value="item">
+                    <input type="hidden" name="amount" value="10.00">
+                    <input type="hidden" name="currency_code" value="GBP">
+                    <input type="hidden" name="button_subtype" value="services">
+                    <input type="hidden" name="no_note" value="0">
+                    <input type="hidden" name="shipping" value="1.00">
+                    <input type="hidden" name="return" value="http://127.0.0.1:8000/success/">
+                    <input type="hidden" name="cancel_return" value="http://127.0.0.1:8000/cancel/">
+                    <input type="hidden" name="notify_url" value="http://127.0.0.1:8000/ipn/">
+                    <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHostedGuest">
+                    <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_buynowCC_LG.gif"
+
+                           border="0" name="submit" alt="The safer, easier way to pay online!">
+
+
+                    <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1"
+                         height="1">
+                </form>
+
+
+{#                                <form name="_s-xclick" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">#}
+{#                                    {% csrf_token %}#}
+{#                    Type of button#}
+{#                                    <input type="hidden" name="cmd" value="_xclick">#}
+{#                    or _s-xclick#}
+{#                    Seller email#}
+{#                                    <input type="hidden" name="business" value="katq1995-2@gmail.com">#}
+{#                                    <input type="hidden" name="currency_code" value="GBP">#}
+{#                    Buyer website user name#}
+{#                                    <input type="hidden" name="custom" value="{{ user.username }}"/>#}
+{#                    The items#}
+{#                                    <input type="hidden" name="item_name" value="TeddyBear">#}
+{#                                    <input type="hidden" name="item_number" value="itemid">#}
+{#                    Total amount#}
+{#                                    <input type="hidden" name="amount" value="22.00">#}
+{#                    Successful payment url#}
+{#                                    <input type="hidden" name="return" value="http://127.0.0.1:8000/success/">#}
+{#                    Unsuccessful payment url#}
+{#                                    <input type="hidden" name="cancel_return" value="http://127.0.0.1:8000/cancel/">#}
+{#                    Notify url#}
+{#                                    <input type="hidden" name="notify_url" value="http://127.0.0.1:8000/ipn/">#}
+{#                                    <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" border="0"#}
+{#                                           name="submit"#}
+{#                                           alt="Make payments with PayPal - it's fast, free and secure!">#}
+{#                                    <INPUT TYPE="hidden" name="shipping" VALUE="1.00">#}
+{#                                    <INPUT TYPE="hidden" name="first_name" VALUE="John">#}
+{#                                    <INPUT TYPE="hidden" name="last_name" VALUE="Doe">#}
+{#                                    <INPUT TYPE="hidden" name="address1" VALUE="9 Elm Street">#}
+{#                                    <INPUT TYPE="hidden" NAME="address2" VALUE="Apt 5">#}
+{#                                    <INPUT TYPE="hidden" NAME="city" VALUE="Berwyn">#}
+{#                                    <INPUT TYPE="hidden" NAME="zip" VALUE="19312">#}
+{##}
+{##}
+{#                </form>#}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

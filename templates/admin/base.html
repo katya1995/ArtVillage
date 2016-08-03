@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block init %}
+{% load admin_static %}{% load firstof from future %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+{% endblock %}
+
+<head>
+
+<title>{% block title %}{% endblock %}</title>
+
+<link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}" />
+{% block loadin %}
+
+{% block extrastyle %}{% endblock %}
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="{% block stylesheet_ie %}{% static "admin/css/ie.css" %}{% endblock %}" /><![endif]-->
+{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
+<script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "{% filter escapejs %}{% now "Z" %}{% endfilter %}";</script>
+{% block extrahead %}{% endblock %}
+{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+
+{% endblock %}
+
+
+</head>
+{% load i18n %}
+
+<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
+
+{% block body_block %}
+<!-- Container -->
+<div id="container">
+
+    {% if not is_popup %}
+    {% block breadcrumbs %}
+    <div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+    {% if title %} &rsaquo; {{ title }}{% endif %}
+    </div>
+    {% endblock %}
+    {% endif %}
+
+    {% block messages %}
+        {% if messages %}
+        <ul class="messagelist">{% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+        {% endfor %}</ul>
+        {% endif %}
+    {% endblock messages %}
+
+    <!-- Content -->
+    <div id="content" class="{% block coltype %}colM{% endblock %}">
+        {% block pretitle %}{% endblock %}
+        {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+        {% block content %}
+        {% block object-tools %}{% endblock %}
+        {{ content }}
+        {% endblock %}
+        {% block sidebar %}{% endblock %}
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    {% block footer %}<div id="footer"></div>{% endblock %}
+</div>
+<!-- END Container -->
+
+{% if user.is_staff %}
+
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Help Section</h4>
+        </div>
+        <div class="modal-body">
+          <h2>Tables in Database</h2>
+          <p>From the admin page, each user see the tables related for storing art. To add a piece of art to the database, click on the art table,
+           this will redirect the user to a page which displays information on all the pieces of art in the database. To add a new piece of art, click
+          the "add art" button on the top right of the table which will redirect the user to the add art screen. To add a new piece to the database,
+           fill in all the fields and add an optional picture and description. When adding artists and agents, click the magnifying glass, this will
+           open up the table for artists or agents in a new window and will allow for one to be selected. If the artist/agent is not in the table, one can be
+          added by selecting the add button at the top right (similar to how to add art) and filling out the fields. After filling out a the fields,
+           click save to store the piece of art in the database.
+          </br>
+          Each table allows the user to search for results by selecting the search box, entering the desired word or phrase and then pressing enter,
+          you will see the results on the page are now match what was searched for. Additionally, the filter tab at the side of the Arts table allows the user
+          to filter pieces of art further.</p>
+          <h2>Add additional images to piece of art</h2>
+          <p>To add additional images for a piece art, select the "Images" table, then select "Add Image" at the top right,
+           after being redirected to the new screen choose the photo to upload and then click the magnifying glass to find the piece of art
+          this image is to be associated with</p>
+          <h2>Users and Adding Members of Staff</h2>
+          </br>
+          <p>From the main admin screen superusers can select the Users table. Clicking this link will
+          show a list of users in this application. To give a user "superuser" status simply click on the desired user, this will redirect you to
+          a page with information about the user, scroll down to permissions and select the boxes that say "staff status" and "superuser status".
+          To complete this change select save and this will update the users permissions. </br>
+          To give users "volunteer" access (recommended for staff members who should not be admins) check the boxes next to the appropriate users.
+          After all the users have been selected click on the actions dropdown menu at the top and select "Make Volunteers" and then follow this through
+          by clicking the "go" button next to it.</p>
+          <h2>Actions in Arts Table</h2>
+          <p>At the top of the Art table, an action dropdown box can be seen, actions are available are dependant on the users permissions. To make labels
+          simply select up to 5 pieces of art by clicking the checkboxes to the side of them, please ensure they are all by the same artist.
+          The select the action called "Make Labels" from the dropdown box and select go, this will download a pdf which shows the label and can be printed off.
+          </br>
+          When a new piece of art is entered into the database, it is given an authentication status of "pending" and will only be displayed in the catalogue
+           once this is set to approve, to approve pieces of art, the superuser can select the checkbox at the side of each piece of art and then choose
+           the action "approve art" followed by clicking go. If the details of a piece of art are not correct, it is advised to select them and choose the action
+           "reject art" until the matter is resolved.</p>
+          <h2>Import/Export CSV files</h2>
+          <p>The tables can all be updated via csv files, to import a csv, choose the table that is to be updated, click the import button (top right of the table)
+          and the upload the csv. Please ensure that the columns in the csv match those stated on the import page.
+          </br>
+          To export the table, select the export button on the table of choice and select the format from the dropdown menu (recommended to use
+           .csv) and then select export. The table will then be downloaded.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<div class="center">
+    <div id="inner" style="width: 50%; margin: 0 auto; text-align: center;">
+      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"
+              style="background-color: #923030;border-color: black;color: white;">Help</button>
+    </div>
+</div>
+
+{%  endif %}
+
+{% endblock %}
+
+</body>
+</html>

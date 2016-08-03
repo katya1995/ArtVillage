@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+<head>
+    <title>Art Village</title>
+</head>
+
+{% block title %} User Profile {% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        {% if not user_can_edit %}
+            <div class="row">
+                <div class="span6 well well-lg text-center">
+                    <h3>{{ user.username }}</h3>
+                </div>
+            </div>
+            </div>
+        {% elif user_can_edit %}
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="span3 well well-lg text-center" style="float: left;">
+                        My Details: <br>
+                        {{ user.username }}<br>
+                        <em class="align-left">{{ user.email }}</em></br>
+                        <a href="{% url 'edit_details' %}" class="btn btn-default">Edit Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="span3 well well-lg text-center " style="float: left;">
+                        Shipping Address:<br>
+                        <em class="align-left">First Name: {{ userprofile.first_name }}</em><br>
+                        <em class="align-left">Surname: {{ userprofile.surname }}</em><br>
+                        <em class="align-left">Country: {{ userprofile.country }}</em><br>
+                        <em class="align-left">City: {{ userprofile.city }}</em><br>
+                        <em class="align-left">Address line 1: {{ userprofile.address1 }}</em><br>
+                        <em class="align-left">Address line 2: {{ userprofile.address2 }}</em><br>
+                        <em class="align-left">Postcode: {{ userprofile.postcode }}</em><br>
+                        <a href="{% url 'edit_shipping_details' %}" class="btn btn-default">Edit Shipping Details</a>
+                    </div>
+                </div>
+            </div>
+
+
+
+            </div>
+        {% endif %}
+    {% if user.is_staff  and  request.user == user %}
+
+        <div class="row1">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                </br>
+                <a href="{% url 'admin:index' %}" class="btn btn-default pull-right">Manage</a>
+            </div>
+        </div>
+
+    {% endif %}
+
+
+{% endblock %}
+
+
+
+

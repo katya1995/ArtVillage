@@ -1,0 +1,61 @@
+{% load staticfiles %}
+
+        {% for item in cart %}
+            {% with product=item.product %}
+                <tr>
+                    <td>
+                        <a href="{% url 'goto' %}?art_id={{ product.id }}">
+
+                            {% if product.picture %}
+                                <img src="{{ product.picture.url }}" name="aboutme" width="60"
+                                     height="60"
+                                     class="img-rounded" class="img-responsive">
+                            {% else %}
+                                <img src="{% static "images/generic.jpg" %}" name="aboutme" width="60"
+                                     height="60"
+                                     class="img-rounded" class="img-responsive">
+                            {% endif %}
+
+                        </a>
+                    </td>
+                    <td style="text-align: center;vertical-align: middle">{{ product.name }}</td>
+                    <td style="text-align: center;vertical-align: middle">
+                        <form action="{% url "cart_add" product.id %}" method="post">
+                            {{ item.update_quantity_form.quantity }}
+                            {{ item.update_quantity_form.update }}
+                            <input type="submit" value="Update">
+                            {% csrf_token %}
+                        </form>
+                    </td>
+                    <td style="text-align: center;vertical-align: middle"><a style="color: red;"
+                                                                             href="{% url "cart_remove" product.id %}">Remove</a>
+                    </td>
+                    <td style="text-align: center;vertical-align: middle" class="num">&pound{{ item.price }}</td>
+                    <td style="text-align: center;vertical-align: middle" class="num">&pound{{ item.total_price }}</td>
+                </tr>
+            {% endwith %}
+        {% endfor %}
+        </br>
+
+        <div class="cart-details">
+            {% csrf_token %}
+            <tr>
+                <td colspan="6"><br></td>
+            </tr>
+            <tr class="total">
+                <td colspan="5">Total Before Delivery</td>
+                <td class="num">&pound{{ cart.get_total_price }}</td>
+            </tr>
+            <tr class="total-delivery-price">
+                <td colspan="5">Delivery</td>
+                <td class="num">&pound{{ total_delivery_price }}</td>
+            </tr>
+            <tr class="total-with-delivery">
+                <td colspan="5">Total With Delivery</td>
+                <td class="num">&pound{{ total_with_delivery }}</td>
+            </tr>
+            <tr class="total-with-delivery">
+                <td colspan="5">Delivery Type</td>
+                <td class="num">{{ delivery_type|capfirst }}</td>
+            </tr>
+        </div>

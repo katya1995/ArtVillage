@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %} Catalogue {% endblock %}
+
+{% load ITI3py %}
+
+{% block filtering %}
+    <div class="gridHeader">
+        <div class="container-fluid">
+            <div class="dropdownControls">
+              <div id="outer" style="width:100%">
+                <div id="inner" style="width: 50%; margin: 0 auto; text-align: center;">
+                <ul id="filterlist" class="list-unstyled" style="display: inline; ">
+                    <li>
+                        <a type="button" class="btn btn-default" href="javascript:;" style="margin-right: 5px;"id="filterToggle">
+                            Filter
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </a>
+                    <li>
+                    <li>
+                        <a href="javascript:;" class="btn btn-default" type="button" style="margin-left: 5px;" id="sortToggle"
+                           data-default-text="sort">Sort
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                    </li>
+                </ul>
+                </div>
+              </div>
+              </br>
+
+                <div id="outer" style="width:100%">
+                  <div id="inner" style="width: 50%; margin: 0 auto; text-align: center;">
+                      {{ num_items }} Items | Show
+                            <a class="4-view" id="4-view">
+                                <input type="radio" name="view" value="4"> 4
+                            </a>
+                            <a class="8-view" id="8-view">
+                                <input type="radio" name="view" value="8" checked="checked"> 8
+                            </a>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div id="sort" class="dropdown sort" style="display: none;">
+        <div class="container-fluid">
+            <div class="dropdownFooter">
+                <div>
+                    <form action="">
+                        <input type="radio" name="sort" value="desc" id="checkpriceDesc"> Price: High to Low
+                        <input type="radio" name="sort" value="asc" id="checkpriceAsc"> Price: Low to High
+                    </form>
+                    <br>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="filters" class="dropdown" style="display: none;">
+        <div class="filter-title is-mobile">
+            <span>Filter</span>
+        </div>
+        <div class="filterControl container-fluid">
+            <div class="dropdownContent">
+                <p style="padding-left:115px; text-align: center;">
+                    <label for="price" style="font-weight: normal;">Price range: </label>
+                    <input type="text" id="price" style="border:0; color:#b9cd6d; font-weight:normal;">
+                </p>
+
+                <div style="margin: 0 auto; text-align: center; width: 75%;" id="slider-3"></div>
+
+
+                <div id="filter" class="filter" style="width: 100%; padding-top:70px;">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4>Category</h4>
+                            <ul style="padding-left: 10px;" id="category-list" class="categories">
+                                {% block category_dropdown1 %}
+                                    {% filter_art %}
+                                {% endblock %}
+                            </ul>
+                        </div>
+                        <div class="col-sm-6">
+                            <h4>Sub-Category</h4>
+                            <ul style="padding-left: 10px;" id="type-list" class="types">
+                                {% block type_dropdown %}
+                                    {% filter_type %}
+                                {% endblock %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+             </div>
+         </div>
+    </div>
+
+{% endblock %}
+
+{% block body_block %}
+    {#    Reuse commong template for index and filtering #}
+    <div id="filtering-template-container">
+        {% include 'ArtVillage/filtering.html' %}
+    </div>
+{% endblock %}
+

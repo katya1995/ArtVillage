@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Edit Shipping Details{% endblock %}
+
+{% block body_block %}
+
+    <div class="container">
+        <div class="row">
+            <div class="register-formWrapper">
+                <div class="col-xs-5 register-form ">
+                    <form id="shipping_details" method="post" action="{% url 'edit_shipping_details' %}" enctype="multipart/form-data">
+                        <h1>Edit Shipping Details</h1>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input class="register-input" id="first_name" maxlength="100" name="first_name" autofocus value="" placeholder="First Name"/>
+                        </div>
+                        <div class="form-group">
+                            <input class="register-input" id="surname" maxlength="100" name="surname" autofocus value="" placeholder="Surname"/>
+                        </div>
+                        <div class="form-group">
+                            <select style="width: 356px;" class="register-input" id="id_country" maxlength="5" name="country" autofocus value="" placeholder="Country">
+                              {% for key, value in country %}
+                                 <option value="{{ value }}">{{ key }}</option>
+                              {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input class="register-input" id="id_city" maxlength="100" name="city" autofocus value="" placeholder="City/town"/>
+                        </div>
+                        <div class="form-group">
+                            <input class="register-input" id="id_address1" maxlength="100" name="address1" autofocus value="" placeholder="Address line 1"/>
+                        </div>
+                        <div class="form-group">
+                            <input class="register-input" id="id_address2" maxlength="100" name="address2" autofocus value="" placeholder="Address line 2"/>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="register-input" id="id_postcode" maxlength="32" name="postcode" autofocus value="" placeholder="Postcode"/>
+                        </div>
+                        <div class="form-group">
+                            <input class="btn btn-primary" type="submit" name="submit" value="Save changes" />
+                        </div>
+{#                                    {{ profile_form.as_p }}#}
+
+                    </form>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+

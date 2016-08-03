@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block body_block %}
+
+    <div class="container">
+        <div class="row">
+            <div class="register-formWrapper">
+                <div class="col-xs-5 register-form ">
+                    <form id="user_form" method="post" action="" enctype="multipart/form-data">
+                        <h1>Edit profile</h1>
+                        {% if existent %}
+                            <p class="reg-error" >Failed attempt: This email is already in the system. Please try again with a different email</p>
+                        {% endif %}
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input class="register-input" id="id_email" maxlength="75" type="email" name="email" autofocus value="" placeholder="Your new email address"/>
+                        </div>
+                        <div class="form-group">
+                            <input class="btn btn-primary" type="submit" name="submit" value="Save changes" />
+                        </div>
+                        <a href="{% url 'userauth_password_change' %}">Change password</a>
+                    </form>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+

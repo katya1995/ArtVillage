@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Add Volunteer{% endblock %}
+
+{% block body_block %}
+
+<a href="{% url 'add_volunteer' %}" class="btn btn-default" >Add Volunteer</a>
+
+<a href="{% url 'add_art' %}" class="btn btn-default" >Add Art</a>
+
+<button type="submit" class="btn btn-default">Manage volunteers</button>
+
+<button type="submit" class="btn btn-default">Edit art</button>
+
+<!-- <script src="{% static "js/form_js.js" %}"></script> -->
+
+<!-- multistep form -->
+
+<form id="msform">
+
+
+    <!-- fieldsets -->
+
+    <fieldset>
+
+        <h2 class="fs-title">Add the details of the volunteer</h2>
+        <input type="text" name="fname" placeholder="First Name"/>
+        <input type="text" name="sname" placeholder="Family Name"/>
+        <input type="text" name="email" placeholder="Email"/>
+        <input type="button" name="next" class="next action-button" value="Next"/>
+
+    </fieldset>
+
+</form>
+
+{% endblock %}

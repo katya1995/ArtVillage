@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body_block %}
+<div class="container">
+        <div class="row">
+            <div class="register-formWrapper">
+                <div class="col-xs-5 register-form register-formWrapper">
+
+                    <form id="login_form" method="post" action="/index/login/">
+                        <h1>Login</h1>
+                        {% csrf_token %}
+                        {% if invalid %}
+                            <p class="reg-error" >Invalid login details</p>
+                        {% endif %}
+                        {% if name %}
+                        <div class="form-group">
+                            <input class="register-input" value="{{ name }}" type="text" name="username" required autofocus value="" placeholder="Username"/>
+                        </div>
+                        {% else %}
+                        <div class="form-group">
+                            <input class="register-input" type="text" name="username" required autofocus value="" placeholder="Username"/>
+                        </div>
+                        {% endif %}
+                        <div class="form-group">
+                            <input class="register-input" id="id_password" required name="password" placeholder="Password" type="password" value="">
+                        </div>
+                        <div class="login"><input class="btn btn-primary sign-in-btn" type="submit" name="submit" value="Sign In" /></div>
+                    </form>
+                    <div class="no-account">
+                        <span class="no-account">Do not have an account?</span>
+                        <a class="btn btn-primary" href="{% url 'register' %}">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

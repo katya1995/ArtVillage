@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %} About{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <div class="row">
+            {% if registered %}
+                <h1>Thank you for registering</h1>
+                <a href="{% url 'index' %}">Go to home page</a>
+            {% else %}
+                <div class="register-formWrapper">
+                    <div class="col-xs-5 register-form register-formWrapper">
+                        <p>ArtVillage creates living galleries in historic high streets.</br></br>
+
+                            We aim to re-energise our local community by giving people a reason to return to the great
+                            streets we loved as children and to support the local businesses who still trade there.</br></br>
+
+                            Click catalogue to browse our selection of arts</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="{% static "js/form_js.js" %}"></script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% load staticfiles %}
+
+{% if art %}
+    <table class="table" valign="baseline">
+        <tbody>
+        {% for a in art %}
+
+            <tr class="clickable-row" onclick="location.href='{% url 'goto' %}?art_id={{ a.id }}'">
+
+                <td class="art-artist" valign="middle" align="left">
+                    <p class="cat-descr">{{ a.name }}</p>
+                </td>
+
+                <td class="art-artist" valign="middle" align="left">
+                    <p class="cat-descr"><strong>Artist: </strong>{{ a.artist }}</p>
+                </td>
+                <td >
+                    <p><strong>Identification: </strong>{{ a.identification }}<p>
+                </td>
+            <td >
+                {% if a.picture %}
+                    <img src="{{ a.picture.url }}" name="aboutme" width="30" height="30" class="img-rounded" class="img-responsive">
+                {% else %}
+                     <img src="{% static "images/generic.jpg" %}" name="picture" width="30"
+                     height="30"
+                     class="img-rounded" class="img-responsive">
+                {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

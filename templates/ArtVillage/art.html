@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ piece_of_art_name }}{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 public-cats">
+                {% if art %}
+                    <tr>
+                        <td class="category-info">
+                            {% if art.picture %}
+                                <a class="thumbnail" data-image-id=""
+                                   data-toggle="modal"
+                                   data-caption=""
+                                   data-image={{ art.picture.url }}
+                                           data-target="#image-gallery"
+                                   style="width: 500px;margin: 0px;">
+                                    <img src="{{ art.picture.url }}" class="img-rounded" class="img-responsive"
+                                         style="height: auto;width: 500px;">
+                                </a>
+                            {% else %}
+                                <img src="{% static "images/generic.jpg" %}" name="picture"
+                                     style="width: 500px;height: auto;"
+                                     class="img-rounded" class="img-responsive">
+                            {% endif %}
+
+                            <br style="margin-top: 50px;"></br>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    {% for image in images %}
+                                        <div style="width: 150px;padding-left: 0px;"
+                                             class="col-lg-3 col-md-4 col-xs-6 thumb">
+                                            <a class="thumbnail" data-image-id=""
+                                               data-toggle="modal"
+                                               data-caption=""
+                                               data-image={{ image.additional_image.url }}
+                                                       data-target="#image-gallery"
+                                               style="width: 150px;margin: 0px;">
+                                                <img src="{{ image.additional_image.url }}" class="img-rounded"
+                                                     class="img-responsive" style="height: 85px;width: 150px;">
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="image-gallery" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" style="width: 80%;">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span
+                                                    aria-hidden="true">×</span><span class="sr-only">Close</span>
+                                            </button>
+                                            <h4 class="modal-title" id="image-gallery-title"></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img id="image-gallery-image" class="img-responsive" src="">
+                                        </div>
+                                        <div class="modal-footer">
+
+                                            <div class="col-md-2">
+                                                <button type="button" class="btn btn-primary" id="show-previous-image">
+                                                    Previous
+                                                </button>
+                                            </div>
+
+                                            <div class="col-md-8 text-justify" id="image-gallery-caption">
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <button type="button" id="show-next-image" class="btn btn-default">
+                                                    Next
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br style="margin-top: 50px;"></br>
+
+                            <p class="art-name">Name: {{ art.name }}</p>
+
+                            <p class="art-name">By: {{ art.artist }}</p>
+
+                            <p class="art-name">Price: £{{ art.price }}</p>
+
+                            <p class="art-name">Weight: {{ art.weight }}</p>
+
+                            <p class="art-name">Size: {{ art.size }}</p>
+
+                            <p class="art-name">Identification: {{ art.identification }}</p>
+
+                            {% if art.quantity > 0 %}
+                                <p class="art-name">Stock: Available</p>
+                            {% else %}
+                                <p class="art-name">Stock: Out of stock, contact for more information</p>
+                            {% endif %}
+                            <br style="margin-bottom: 25px;"></br>
+
+                            {% if art.description %}
+                                <p>Description: {{ art.description }}</p>
+                            {% endif %}
+
+                            {% if art.artist.description %}
+                                <p>About Artist: {{ art.artist.description }}</p>
+                            {% else %}
+                                <p>No information about the artist is available</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    {% if art.quantity > 0 %}
+                      <form action="{% url "cart_add" art.id %}" method="post">
+                          {{ cart_product_form }}
+                          {% csrf_token %}
+                          <input type="submit" value="Add to cart">
+                      </form>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

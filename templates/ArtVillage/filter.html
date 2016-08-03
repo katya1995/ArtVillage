@@ -1,0 +1,8 @@
+{% if cats %}
+    {% for c in cats %}
+        <input class="category-list" type="checkbox" value={{ c.split|join:"_" }} name={{ c.split|join:"_" }} > {{ c }}<br>
+    {% endfor %}
+
+{% else %}
+    <li> <strong >There are no category present.</strong></li>
+{% endif %}

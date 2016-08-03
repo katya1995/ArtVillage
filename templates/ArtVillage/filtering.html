@@ -1,0 +1,141 @@
+{% load staticfiles %}
+
+{% load ITI3py %}
+
+<div class="container" id="catalogue">
+    {% if art %}
+        <input class="max-price" type="hidden" id="max-price" value="{{ max }}">
+        </input>
+
+        {% for piece_of_art in art %}
+            <a href="{% url 'goto' %}?art_id={{ piece_of_art.id }}">
+              {% if val == 4 %}
+                  <div id={{ piece_of_art.id }} class="floated_img"
+                     style="text-align: center; margin-left: 20px; margin-right: 20px; width: 400px; float: left;">
+                    {% if piece_of_art.picture %}
+                        <img onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="{{ piece_of_art.picture.url }}" name="aboutme" style="width: 280px; height: 280px;"
+                             class="img-rounded" class="img-responsive">
+                    {% else %}
+                        <img onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="{% static "images/generic.jpg" %}" name="aboutme"
+                             style="width: 280px; height: 280px;"
+                             class="img-rounded" class="img-responsive">
+                    {% endif %}
+                    <div class="table-responsive" style="width: 400px;">
+                        <p style="text-align: center; width: 400px;">
+                            {{ piece_of_art.name }}<br>
+                            Artist: {{ piece_of_art.artist }}<br>
+                            Sub Category: {{ piece_of_art.sub_category }}<br>
+                            Category: {{ piece_of_art.category }} <br>
+                            £{{ piece_of_art.price }}<br>
+                        </p>
+                    </div>
+                </div>
+              {% else %}
+                <div id={{ piece_of_art.id }} class="floated_img"
+                     style="text-align: center; margin-left: 20px; margin-right: 20px; width: 200px; float: left;">
+                    {% if piece_of_art.picture %}
+                        <img onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="{{ piece_of_art.picture.url }}" name="aboutme" width="140"
+                             height="140"
+                             class="img-rounded" class="img-responsive">
+                    {% else %}
+                        <img onmouseover="bigImg(this)" onmouseout="normalImg(this)" src="{% static "images/generic.jpg" %}" name="aboutme" width="140"
+                             height="140"
+                             class="img-rounded" class="img-responsive">
+                    {% endif %}
+                    <div class="table-responsive" style="width: 200px;">
+                        <p style="text-align: center;">
+                            {{ piece_of_art.name }}<br>
+                            Artist: {{ piece_of_art.artist }}<br>
+                            Sub Category: {{ piece_of_art.sub_category }}<br>
+                            Category: {{ piece_of_art.category }} <br>
+                            £{{ piece_of_art.price }}<br>
+                        </p>
+                    </div>
+                </div>
+              {% endif %}
+            </a>
+        {% endfor %}
+        <br>
+    {% endif %}
+</div>
+<br>
+
+<div class="center">
+    <div id="inner" style="width: 50%; margin: 0 auto; text-align: center;">
+        <ul style="width:700px;"class="pagination">
+
+            {% if art.has_previous %}
+                <li class="new-page" value="{{ art.previous_page_number }}">
+                    <a href="#">«</a>
+                </li>
+            {% else %}
+                <li>
+                    <a>«</a>
+                </li>
+            {% endif %}
+            {% if art.number != 1 %}
+                <li class="new-page" value="{{ 1 }}">
+                    <a href="#">1</a>
+                </li>
+            {% endif %}
+            {% if art.number > 11 %}
+                <li class="new-page" value="{{ art.number|add:"-10" }}">
+                    <a href="#">{{ art.number|add:"-10" }}</a>
+                </li>
+            {% endif %}
+            {% if art.number > 6 %}
+                <li class="new-page" value="{{ art.number|add:"-5" }}">
+                    <a href="#">{{ art.number|add:"-5" }}</a>
+                </li>
+                <li>
+                    <a>...</a>
+                </li>
+            {% endif %}
+            {% if art.number > 2 %}
+                <li class="new-page" value="{{ art.previous_page_number }}">
+                    <a href="#">{{ art.previous_page_number }}</a>
+                </li>
+            {% endif %}
+
+            <li class="new-page" value={{ art.number }}>
+                <a style="background-color: darkgrey;color: white;border: 1px solid #333;" href="#">{{ art.number }}</a>
+            </li>
+
+             {% if art.number < art.paginator.num_pages|add:"-1" %}
+                <li class="new-page" value="{{ art.next_page_number }}">
+                    <a href="#">{{ art.next_page_number }}</a>
+                </li>
+            {% endif %}
+
+            {% if art.number < art.paginator.num_pages|add:"-6" %}
+                <li>
+                    <a>...</a>
+                </li>
+                <li class="new-page" value="{{ art.number|add:"5" }}">
+                    <a href="#">{{ art.number|add:"5" }}</a>
+                </li>
+            {% endif %}
+            {% if art.number < art.paginator.num_pages|add:"-11" %}
+                <li class="new-page" value="{{ art.number|add:"10" }}">
+                    <a href="#">{{ art.number|add:"10" }}</a>
+                </li>
+            {% endif %}
+
+            {% if art.number != art.paginator.num_pages %}
+                <li class="new-page" value="{{ art.paginator.num_pages }}">
+                    <a href="#">{{ art.paginator.num_pages }}</a>
+                </li>
+            {% endif %}
+
+            {% if art.has_next %}
+                <li class="new-page" value="{{ art.next_page_number }}">
+                    <a href="#">»</a>
+                </li>
+            {% else %}
+                <li>
+                    <a>»</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

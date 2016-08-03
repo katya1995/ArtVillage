@@ -1,0 +1,8 @@
+{% if types %}
+    {% for type in types %}
+        <input class="type-list" type="checkbox" name={{ type.split|join:"_" }} value={{ type.split|join:"_" }}> {{ type }}<br>
+    {% endfor %}
+
+{% else %}
+    <li> <strong >There are no types present.</strong></li>
+{% endif %}
